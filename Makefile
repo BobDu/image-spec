@@ -41,6 +41,7 @@ FIGURE_FILES := \
 	img/media-types.png
 
 MARKDOWN_LINT_VER?=v0.8.1
+GOLANGCI_LINT_VER?=v2.13.0
 
 TOOLS := gitvalidation
 
@@ -118,13 +119,7 @@ install.tools: $(TOOLS:%=.install.%)
 
 .PHONY: .install.lint
 .install.lint:
-	case "$$(go env GOVERSION)" in \
-	go1.18.*)	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.47.3;; \
-	go1.19.*)	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.54.1;; \
-	go1.20.*)	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.55.2;; \
-	go1.21.*)	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.59.1;; \
-	*) go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest;; \
-	esac
+	curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(GOPATH)/bin $(GOLANGCI_LINT_VER)
 
 .PHONY: .install.gitvalidation
 .install.gitvalidation:
